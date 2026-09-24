@@ -1,0 +1,62 @@
+namespace: PyzTest\Zed\Antelope
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+coverage:
+    enabled: true
+    remote: false
+    whitelist: { include: [ '../../../../src/*' ] }
+
+suites:
+    Persistence:
+        path: Persistence
+        actor: AntelopePersistenceTester
+        modules:
+            enabled:
+                - Asserts
+                - \PyzTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Config\Helper\ConfigInit
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces: [ 'Pyz' ]
+                - \SprykerTest\Shared\Propel\Helper\PropelInstallHelper
+                - SprykerTest\Shared\Propel\Helper\ConnectionHelper
+                - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
+
+    Business:
+        path: Business
+        actor: AntelopeBusinessTester
+        modules:
+            enabled:
+                - Asserts
+                - \PyzTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Config\Helper\ConfigInit
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces: [ 'Pyz' ]
+                - \SprykerTest\Shared\Propel\Helper\ConnectionHelper
+                - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
+
+    Presentation:
+        path: Presentation
+        actor: AntelopePresentationTester
+        modules:
+            enabled:
+                - Asserts
+                - \PyzTest\Shared\Testify\Helper\Environment
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces: [ 'Pyz' ]
+                - \SprykerTest\Shared\Propel\Helper\PropelInstallHelper
+                - \SprykerTest\Shared\Propel\Helper\ConnectionHelper
+                -   WebDriver:
+                        url: ''
+                        browser: chrome
+                        window_size: 1920x1080
+                        host: 0.0.0.0
+                        restart: false
+                - \SprykerTest\Shared\Testify\Helper\DataCleanupHelper
+                - \SprykerTest\Shared\Application\Helper\ZedHelper
+                - \SprykerTest\Shared\Application\Helper\YvesHelper
+                - \SprykerTest\Shared\Testify\Helper\SeeHelper
