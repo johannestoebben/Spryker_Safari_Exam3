@@ -1,0 +1,11 @@
+{% extends '@Gui/Layout/layout.twig' %}
+{% block content %}
+    <h1>Antelope location {{ antelopeLocation.locationName }}</h1>
+    <p>ID: {{ antelopeLocation.idAntelopeLocation }}</p>
+    <form method="post" action="/antelope/antelope-location/update">
+        <input type="hidden" name="id" value="{{ antelopeLocation.idAntelopeLocation }}">
+        <input type="text" name="locationName" value="{{ antelopeLocation.locationName }}" required>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <p><a href="/antelope/antelope-location">Back to list</a></p>
+{% endblock content %}

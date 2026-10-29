@@ -4,6 +4,8 @@ namespace Pyz\Client\Antelope;
 
 
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationResponseTransfer;
 use Generated\Shared\Transfer\AntelopeResponseTransfer;
 
 /**
@@ -12,4 +14,8 @@ use Generated\Shared\Transfer\AntelopeResponseTransfer;
 interface AntelopeClientInterface
 {
     public function getAntelope(AntelopeCriteriaTransfer $antelopeCriteriaTransfer): AntelopeResponseTransfer;
+
+    public function getAntelopeLocation(
+        AntelopeLocationCriteriaTransfer $antelopeLocationCriteriaTransfer
+    ): AntelopeLocationResponseTransfer;
 }

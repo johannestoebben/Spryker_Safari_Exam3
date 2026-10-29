@@ -3,6 +3,9 @@
 namespace Pyz\Zed\Antelope\Business;
 
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationCollectionTransfer;
+use Generated\Shared\Transfer\AntelopeLocationCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationResponseTransfer;
 use Generated\Shared\Transfer\AntelopeLocationTransfer;
 use Generated\Shared\Transfer\AntelopeResponseTransfer;
 use Generated\Shared\Transfer\AntelopeTransfer;
@@ -32,5 +35,26 @@ class AntelopeFacade extends AbstractFacade implements AntelopeFacadeInterface
     public function findLocationById(int $idLocation): ?AntelopeLocationTransfer
     {
         return $this->getFactory()->createAntelopeLocationReader()->findLocationById($idLocation);
+    }
+
+    public function getAntelopeLocation(
+        AntelopeLocationCriteriaTransfer $antelopeLocationCriteriaTransfer
+    ): AntelopeLocationResponseTransfer {
+        return $this->getFactory()->createAntelopeLocationReader()->getAntelopeLocation($antelopeLocationCriteriaTransfer);
+    }
+
+    public function getAntelopeLocationCollection(): AntelopeLocationCollectionTransfer
+    {
+        return $this->getFactory()->createAntelopeLocationReader()->getAntelopeLocationCollection();
+    }
+
+    public function updateLocation(AntelopeLocationTransfer $antelopeLocationTransfer
+    ): AntelopeLocationResponseTransfer {
+        return $this->getFactory()->createAntelopeLocationWriter()->updateLocation($antelopeLocationTransfer);
+    }
+
+    public function deleteLocation(int $idAntelopeLocation): bool
+    {
+        return $this->getFactory()->createAntelopeLocationWriter()->deleteLocation($idAntelopeLocation);
     }
 }

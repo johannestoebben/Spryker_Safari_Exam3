@@ -1,0 +1,16 @@
+namespace: PyzTest\Client\Antelope
+
+paths:
+    tests: .
+    data: _data
+    support: _support
+    output: _output
+
+suites:
+    Stub:
+        path: Stub
+        actor: AntelopeClientTester
+        modules:
+            enabled:
+                - Asserts
+                - \PyzTest\Shared\Testify\Helper\Environment

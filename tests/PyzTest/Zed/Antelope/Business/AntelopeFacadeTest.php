@@ -4,11 +4,13 @@ namespace PyzTest\Zed\Antelope\Business;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\AntelopeCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationCriteriaTransfer;
+use Generated\Shared\Transfer\AntelopeLocationResponseTransfer;
 use Generated\Shared\Transfer\AntelopeLocationTransfer;
 use Generated\Shared\Transfer\AntelopeResponseTransfer;
 use Generated\Shared\Transfer\AntelopeTransfer;
-use Pyz\Zed\Antelope\Business\Antelope\Reader\AntelopeReader;
-use Pyz\Zed\Antelope\Business\Antelope\Writer\AntelopeWriter;
+use Pyz\Zed\Antelope\Business\Reader\AntelopeReader;
+use Pyz\Zed\Antelope\Business\Writer\AntelopeWriter;
 use Pyz\Zed\Antelope\Business\AntelopeBusinessFactory;
 use Pyz\Zed\Antelope\Business\AntelopeFacade;
 use Pyz\Zed\Antelope\Business\AntelopeFacadeInterface;
@@ -65,12 +67,12 @@ class AntelopeFacadeTest extends Unit
             ->willReturn($antelopeLocationReaderMock);
 
         $antelopeLocationReaderMock->expects($this->once())
-            ->method('getAntelopeLocationById')
+            ->method('findLocationById')
             ->with($idLocation)
             ->willReturn($expectedAntelopeLocationTransfer);
 
         // Act
-        $result = $this->antelopeFacade->getAntelopeLocationById($idLocation);
+        $result = $this->antelopeFacade->findLocationById($idLocation);
 
         // Assert
         $this->assertSame($expectedAntelopeLocationTransfer, $result);
@@ -112,15 +114,59 @@ class AntelopeFacadeTest extends Unit
 
 
         $antelopeLocationWriterMock->expects($this->once())
-            ->method('createAntelopeLocation')
+            ->method('createLocation')
             ->with($antelopeLocationTransfer)
             ->willReturn($expectedAntelopeLocationTransfer);
 
         // Act
-        $result = $this->antelopeFacade->createAntelopeLocation($antelopeLocationTransfer);
+        $result = $this->antelopeFacade->createLocation($antelopeLocationTransfer);
 
         // Assert
         $this->assertSame($expectedAntelopeLocationTransfer, $result);
+    }
+
+    public function testGetAntelopeLocation(): void
+    {
+        // Arrange
+        $criteriaTransfer = (new AntelopeLocationCriteriaTransfer())->setIdAntelopeLocation(1);
+        $expectedResponse = (new AntelopeLocationResponseTransfer())->setIsSuccessful(true);
+        $antelopeLocationReaderMock = $this->createMock(AntelopeLocationReader::class);
+
+        $this->businessFactoryMock->expects($this->once())
+            ->method('createAntelopeLocationReader')
+            ->willReturn($antelopeLocationReaderMock);
+
+        $antelopeLocationReaderMock->expects($this->once())
+            ->method('getAntelopeLocation')
+            ->with($criteriaTransfer)
+            ->willReturn($expectedResponse);
+
+        // Act
+        $result = $this->antelopeFacade->getAntelopeLocation($criteriaTransfer);
+
+        // Assert
+        $this->assertSame($expectedResponse, $result);
+    }
+
+    public function testDeleteLocation(): void
+    {
+        // Arrange
+        $antelopeLocationWriterMock = $this->createMock(AntelopeLocationWriter::class);
+
+        $this->businessFactoryMock->expects($this->once())
+            ->method('createAntelopeLocationWriter')
+            ->willReturn($antelopeLocationWriterMock);
+
+        $antelopeLocationWriterMock->expects($this->once())
+            ->method('deleteLocation')
+            ->with(5)
+            ->willReturn(true);
+
+        // Act
+        $result = $this->antelopeFacade->deleteLocation(5);
+
+        // Assert
+        $this->assertTrue($result);
     }
 
     protected function _before(): void

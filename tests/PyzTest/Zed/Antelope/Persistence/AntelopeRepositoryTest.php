@@ -3,8 +3,8 @@
 namespace PyzTest\Zed\Antelope\Persistence;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\AntelopeLocationCriteriaTransfer;
 use Pyz\Zed\Antelope\Persistence\AntelopeRepository;
-use Pyz\Zed\Antelope\Persistence\Exception\EntityNotFoundException;
 
 /**
  * @group Antelope
@@ -14,14 +14,16 @@ class AntelopeRepositoryTest extends Unit
 
     protected AntelopeRepository $repository;
 
-    public function testGetAntelopeLocationByIdThrowsExceptionWhenNotFound(): void
+    public function testFindLocationByIdReturnsNullWhenNotFound(): void
     {
-        $nonExistentId = 99999;
+        $this->assertNull($this->repository->findLocationById(99999));
+    }
 
-        $this->expectException(EntityNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('Antelope Location %d not found', $nonExistentId));
+    public function testFindAntelopeLocationReturnsNullWhenNotFound(): void
+    {
+        $criteriaTransfer = (new AntelopeLocationCriteriaTransfer())->setIdAntelopeLocation(99999);
 
-        $this->repository->getAntelopeLocationById($nonExistentId);
+        $this->assertNull($this->repository->findAntelopeLocation($criteriaTransfer));
     }
 
     protected function _before(): void

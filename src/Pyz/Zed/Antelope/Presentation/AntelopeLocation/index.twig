@@ -1,0 +1,24 @@
+{% extends '@Gui/Layout/layout.twig' %}
+{% block content %}
+    <h1>Antelope locations</h1>
+    <p><a href="/antelope/antelope-location/add">Add random location</a></p>
+    <table class="table">
+        <thead>
+            <tr><th>ID</th><th>Name</th><th></th></tr>
+        </thead>
+        <tbody>
+            {% for antelopeLocation in antelopeLocations %}
+                <tr>
+                    <td>{{ antelopeLocation.idAntelopeLocation }}</td>
+                    <td>{{ antelopeLocation.locationName }}</td>
+                    <td>
+                        <a href="/antelope/antelope-location/get?id={{ antelopeLocation.idAntelopeLocation }}">View</a>
+                        <a href="/antelope/antelope-location/delete?id={{ antelopeLocation.idAntelopeLocation }}">Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="3">No locations yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
